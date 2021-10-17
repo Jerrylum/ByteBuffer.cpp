@@ -59,7 +59,6 @@ public:
     template <class T> T get(size_t idx);
     char get();
     char get(size_t idx);
-    char* get(size_t idx, size_t length);
     ByteBuffer& get(char* dst, size_t offset, size_t length);
     ByteBuffer& get(char* dst, size_t length);
     std::string getNTBS(int maxSize = 1024);

@@ -234,13 +234,6 @@ std::string ByteBuffer::getNTBS(int maxSize)
     return rtn;
 }
 
-char* ByteBuffer::get(size_t idx, size_t length)
-{
-    char* rtn = new char[length];
-    get(rtn, 0, length);
-    return rtn;
-}
-
 bool ByteBuffer::hasRemaining()
 {
     return _position < _limit;
