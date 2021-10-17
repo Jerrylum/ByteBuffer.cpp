@@ -1,6 +1,12 @@
-# A Knockoff  Version of ByteBuffer
+# A Knockoff  Version of ByteBuffer.java
+
+The title is actually quite accurate, ngl.
 
 
+
+## How to use
+
+Copy files `ByteBuffer.h` and `ByteBuffer.cpp` in the `UnitTest1` folder.
 
 
 
@@ -58,9 +64,9 @@ b.get<short>(); // 5678
 
 
 
-More examples:
+Learn what is ByteBuffer: [Java NIO Buffer Tutorial - HowToDoInJava](https://howtodoinjava.com/java/nio/java-nio-2-0-working-with-buffers/) (English ver.), [Java NIO — Buffer 的基本觀念與使用方式. 前言 | by Carl | Medium](https://medium.com/@clu1022/java-nio-buffer-c98b52fd93ca) (Chinese ver.).
 
-Learn how ByteBuffer works: [JDK Source Code: ByteBuffer Test Case](http://hg.openjdk.java.net/jdk7/jdk7/jdk/file/9b8c96f96a0f/test/java/nio/Buffer/), [ByteBuffer Java Doc](https://docs.oracle.com/javase/7/docs/api/java/nio/ByteBuffer.html), [ByteBuffer.java Source Code on GitHub)](https://github.com/himnay/java7-sourcecode/blob/master/java/nio/ByteBuffer.java).
+Learn how ByteBuffer works: [JDK Source Code: ByteBuffer Test Case](http://hg.openjdk.java.net/jdk7/jdk7/jdk/file/9b8c96f96a0f/test/java/nio/Buffer/), [ByteBuffer Java Doc](https://docs.oracle.com/javase/7/docs/api/java/nio/ByteBuffer.html), [ByteBuffer.java Source Code on GitHub](https://github.com/himnay/java7-sourcecode/blob/master/java/nio/ByteBuffer.java).
 
 
 
