@@ -5,6 +5,7 @@
 #include <iterator>
 #include <string>
 
+#ifndef BYTEBUFFER_H
 #define BYTEBUFFER_H
 
 class ByteBuffer {
@@ -146,3 +147,4 @@ inline T ByteBuffer::get(size_t idx)
 
     return ans;
 }
+#endif
