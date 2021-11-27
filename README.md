@@ -74,7 +74,7 @@ Learn how ByteBuffer works: [JDK Source Code: ByteBuffer Test Case](http://hg.op
 ## Things we don't have:
 
 - `allocateDirect` and `isDirect` : we are already using cpp
-- `duplicate`, `slice` and `asCharBuffer` : we might encourage pointer issues
+- `duplicate`, `slice` and `asCharBuffer` : we might encounter pointer issues
 - `asReadOnlyBuffer` and `isReadOnly` : they are unnecessary
 - `order` (ah, maybe I will implement it later)
 
