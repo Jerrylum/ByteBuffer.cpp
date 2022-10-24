@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <iterator>
 #include <string>
+#include <cstring>
 
 #ifndef BYTEBUFFER_H
 #define BYTEBUFFER_H
@@ -19,21 +20,21 @@ private:
     int offset = 0;
     bool released = true;
 
-    ByteBuffer(int mark, int pos, int lim, int cap, char* hb, int offset);
-    ByteBuffer(int cap, int lim);
-    ByteBuffer(int bufsize, char* buf, int off, int len);
+    ByteBuffer(int mark, size_t pos, size_t lim, size_t cap, char* hb, size_t offset);
+    ByteBuffer(size_t cap, size_t lim);
+    ByteBuffer(size_t bufsize, char* buf, size_t off, size_t len);
 
-    int nextGetIndex();
-    int nextGetIndex(int nb);
-    int nextPutIndex();
-    int nextPutIndex(int nb);
-    int checkIndex(int i);
-    int checkIndex(int i, int nb);
+    size_t nextGetIndex();
+    size_t nextGetIndex(size_t nb);
+    size_t nextPutIndex();
+    size_t nextPutIndex(size_t nb);
+    size_t checkIndex(size_t i);
+    size_t checkIndex(size_t i, size_t nb);
 
     int markValue();
     void discardMark();
 
-    int ix(int i);
+    size_t ix(size_t i);
 
     static void checkBounds(int off, int len, int size);
 

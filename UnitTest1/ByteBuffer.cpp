@@ -1,17 +1,15 @@
 #include "ByteBuffer.h"
 
-ByteBuffer::ByteBuffer(int mark, int pos, int lim, int cap, char* hb, int offset)
+ByteBuffer::ByteBuffer(int mark, size_t pos, size_t lim, size_t cap, char* hb, size_t offset)
 {
     if (hb == nullptr)
         throw std::invalid_argument("Null pointer");
-    if (cap < 0)
-        throw std::invalid_argument("Negative capacity");
     this->_capacity = cap;
     limit(lim);
     position(pos);
     if (mark >= 0)
     {
-        if (mark > pos)
+        if (mark > (int)pos)
             throw std::invalid_argument("mark > position");
         this->_mark = mark;
     }
@@ -20,12 +18,12 @@ ByteBuffer::ByteBuffer(int mark, int pos, int lim, int cap, char* hb, int offset
     this->offset = offset;
 }
 
-ByteBuffer::ByteBuffer(int cap, int lim) : ByteBuffer(-1, 0, lim, cap, new char[cap](), 0)
+ByteBuffer::ByteBuffer(size_t cap, size_t lim) : ByteBuffer(-1, 0, lim, cap, new char[cap](), 0)
 {
     released = false;
 }
 
-ByteBuffer::ByteBuffer(int bufsize, char* buf, int off, int len) : ByteBuffer(-1, off, off + len, bufsize, buf, 0) {
+ByteBuffer::ByteBuffer(size_t bufsize, char* buf, size_t off, size_t len) : ByteBuffer(-1, off, off + len, bufsize, buf, 0) {
 
 }
 
@@ -44,14 +42,14 @@ ByteBuffer::ByteBuffer(const ByteBuffer& that) : ByteBuffer(that._mark, that._po
     released = false;
 }
 
-int ByteBuffer::nextGetIndex()
+size_t ByteBuffer::nextGetIndex()
 {
     if (_position >= _limit)
         throw std::overflow_error("");
     return _position++;
 }
 
-int ByteBuffer::nextGetIndex(int nb)
+size_t ByteBuffer::nextGetIndex(size_t nb)
 {
     if (_position >= _limit)
         throw std::overflow_error("");
@@ -60,32 +58,32 @@ int ByteBuffer::nextGetIndex(int nb)
     return p;
 }
 
-int ByteBuffer::nextPutIndex()
+size_t ByteBuffer::nextPutIndex()
 {
     if (_position >= _limit)
         throw std::overflow_error("");
     return _position++;
 }
 
-int ByteBuffer::nextPutIndex(int nb)
+size_t ByteBuffer::nextPutIndex(size_t nb)
 {
     if (_limit - _position < nb)
         throw std::overflow_error("");
-    int p = _position;
+    size_t p = _position;
     _position += nb;
     return p;
 }
 
-int ByteBuffer::checkIndex(int i)
+size_t ByteBuffer::checkIndex(size_t i)
 {
-    if ((i < 0) || (i >= _limit))
+    if (i >= _limit)
         throw std::out_of_range("");
     return i;
 }
 
-int ByteBuffer::checkIndex(int i, int nb)
+size_t ByteBuffer::checkIndex(size_t i, size_t nb)
 {
-    if ((i < 0) || (nb > _limit - i))
+    if (nb > _limit - i)
         throw std::out_of_range("");
     return i;
 }
@@ -100,7 +98,7 @@ void ByteBuffer::discardMark()
     _mark = -1;
 }
 
-int ByteBuffer::ix(int i)
+size_t ByteBuffer::ix(size_t i)
 {
     return i; // no offset
 }
@@ -207,7 +205,7 @@ ByteBuffer& ByteBuffer::get(char* dst, size_t offset, size_t length)
 
     if (length > remaining())
         throw std::underflow_error("");
-    int end = offset + length;
+    // int end = offset + length;
     //for (int i = offset; i < end; i++)
     //	dst[i] = get(); // HACK
     memcpy(&(dst[offset]), &(hb[ix(position())]), length);
@@ -252,7 +250,7 @@ ByteBuffer& ByteBuffer::put(ByteBuffer& src)
     size_t n = src.remaining();
     if (n > remaining())
         throw std::overflow_error("");
-    for (int i = 0; i < n; i++)
+    for (size_t i = 0; i < n; i++)
         put(src.get());
     return *this;
 }
@@ -273,7 +271,7 @@ ByteBuffer& ByteBuffer::put(char* src, size_t offset, size_t length)
     checkBounds(offset, length, offset + length); // HACK dst.length
     if (length > remaining())
         throw std::overflow_error("");
-    int end = offset + length;
+    // int end = offset + length;
     //for (int i = offset; i < end; i++)
     //	put(src[i]); // HACK
     memcpy(&(hb[ix(position())]), &(src[offset]), length);
@@ -296,12 +294,12 @@ size_t ByteBuffer::limit() { return _limit; }
 
 ByteBuffer& ByteBuffer::limit(size_t newLimit)
 {
-    if ((newLimit > _capacity) || (newLimit < 0))
+    if (newLimit > _capacity)
         throw std::invalid_argument("");
     _limit = newLimit;
     if (_position > _limit)
         _position = _limit;
-    if (_mark > _limit)
+    if (_mark > (int)_limit) // HACK
         _mark = -1;
     return *this;
 }
@@ -325,10 +323,10 @@ size_t ByteBuffer::position()
 }
 
 ByteBuffer& ByteBuffer::position(size_t newPosition) {
-    if ((newPosition > _limit) || (newPosition < 0))
+    if (newPosition > _limit)
         throw std::invalid_argument("");
     _position = newPosition;
-    if (_mark > _position)
+    if (_mark > (int)_position) // XXX
         _mark = -1;
     return *this;
 }
