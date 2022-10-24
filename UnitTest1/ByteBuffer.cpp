@@ -53,7 +53,7 @@ size_t ByteBuffer::nextGetIndex(size_t nb)
 {
     if (_position >= _limit)
         throw std::overflow_error("");
-    int p = _position;
+    size_t p = _position;
     _position += nb;
     return p;
 }
@@ -131,7 +131,7 @@ char* ByteBuffer::array()
     return hb;
 }
 
-int ByteBuffer::arrayOffset()
+size_t ByteBuffer::arrayOffset()
 {
     return offset;
 }
@@ -152,8 +152,8 @@ size_t ByteBuffer::capacity()
 
 int ByteBuffer::compareTo(ByteBuffer& that)
 {
-    int n = this->position() + std::min(this->remaining(), that.remaining());
-    for (int i = this->position(), j = that.position(); i < n; i++, j++)
+    size_t n = this->position() + std::min(this->remaining(), that.remaining());
+    for (size_t i = this->position(), j = that.position(); i < n; i++, j++)
     {
         int cmp = this->get(i) - that.get(j);
         if (cmp != 0)
@@ -205,7 +205,7 @@ ByteBuffer& ByteBuffer::get(char* dst, size_t offset, size_t length)
 
     if (length > remaining())
         throw std::underflow_error("");
-    // int end = offset + length;
+    //int end = offset + length;
     //for (int i = offset; i < end; i++)
     //	dst[i] = get(); // HACK
     memcpy(&(dst[offset]), &(hb[ix(position())]), length);
@@ -219,10 +219,10 @@ ByteBuffer& ByteBuffer::get(char* dst, size_t length)
     return get(dst, 0, length);
 }
 
-std::string ByteBuffer::getNTBS(int maxSize)
+std::string ByteBuffer::getNTBS(size_t maxSize)
 {
     std::string rtn = "";
-    for (int i = 0; i < maxSize; i++)
+    for (size_t i = 0; i < maxSize; i++)
     {
         char now = get();
         if (now == (char)0x00)
@@ -271,7 +271,7 @@ ByteBuffer& ByteBuffer::put(char* src, size_t offset, size_t length)
     checkBounds(offset, length, offset + length); // HACK dst.length
     if (length > remaining())
         throw std::overflow_error("");
-    // int end = offset + length;
+    //int end = offset + length;
     //for (int i = offset; i < end; i++)
     //	put(src[i]); // HACK
     memcpy(&(hb[ix(position())]), &(src[offset]), length);
@@ -311,7 +311,7 @@ ByteBuffer& ByteBuffer::mark() {
 
 char* ByteBuffer::output()
 {
-    int length = remaining();
+    size_t length = remaining();
     char* dst = new char[length]();
     memcpy(dst, &hb[_position], length);
     return dst;

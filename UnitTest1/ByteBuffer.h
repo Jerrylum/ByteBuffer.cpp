@@ -17,7 +17,7 @@ private:
     size_t _capacity;
 
     char* hb;
-    int offset = 0;
+    size_t offset = 0;
     bool released = true;
 
     ByteBuffer(int mark, size_t pos, size_t lim, size_t cap, char* hb, size_t offset);
@@ -47,7 +47,7 @@ public:
     ByteBuffer(const ByteBuffer& that);
 
     char* array();
-    int arrayOffset();
+    size_t arrayOffset();
 
     ByteBuffer& compact();
     size_t capacity();
@@ -63,7 +63,7 @@ public:
     char get(size_t idx);
     ByteBuffer& get(char* dst, size_t offset, size_t length);
     ByteBuffer& get(char* dst, size_t length);
-    std::string getNTBS(int maxSize = 1024);
+    std::string getNTBS(size_t maxSize = 1024);
     bool hasRemaining();
     // no order()
     template <class T> ByteBuffer& put(T value);
